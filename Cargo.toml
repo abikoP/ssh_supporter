@@ -1,0 +1,18 @@
+[package]
+name = "ssh_supporter"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "sshr"
+path = "src/main.rs"
+
+[[bin]]
+name = "sshct"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4.5", features = ["derive"] }
+rpassword = "7.3"
+regex = "1.10"
+dialoguer = "0.11"
