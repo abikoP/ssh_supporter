@@ -57,6 +57,12 @@ fn sshct_new(server_name: &str) -> io::Result<()> {
         .interact_text()
         .unwrap();
     
+    let port: String = Input::new()
+        .with_prompt("input port number")
+        .allow_empty(true)
+        .interact_text()
+        .unwrap();
+    
     let identity_file: String = Input::new()
         .with_prompt("input IdentityFile path")
         .allow_empty(true)
@@ -77,6 +83,9 @@ fn sshct_new(server_name: &str) -> io::Result<()> {
     config.hostname = Some(hostname);
     config.user = Some(username);
     
+    if !port.is_empty() {
+        config.port = Some(port);
+    }
     if !identity_file.is_empty() {
         config.identity_file = Some(identity_file);
     }
@@ -153,6 +162,17 @@ fn sshct_edit(server_name: &str) -> io::Result<()> {
         .unwrap();
     if !username.is_empty() {
         config.user = Some(username);
+    }
+    
+    // Port
+    let current_port = config.port.as_deref().unwrap_or("");
+    let port: String = Input::new()
+        .with_prompt(&format!("input port number [{}]", current_port))
+        .allow_empty(true)
+        .interact_text()
+        .unwrap();
+    if !port.is_empty() {
+        config.port = Some(port);
     }
     
     // IdentityFile
